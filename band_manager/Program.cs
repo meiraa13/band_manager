@@ -1,8 +1,7 @@
 ﻿// Screen Sound from Alura
 
 string welcomeMessage = "Boas vindas ao Screen Sound";
-List<string> bandList = new List<string>();
-
+Dictionary<string, List<int>> registeredBands = new Dictionary<string, List<int>>(); 
 void ShowWelcomeMessage()
 {   
 
@@ -29,9 +28,9 @@ void ShowOptionsMenu()
             break;
         case 2:ShowBands();
             break;
-        case 3:BandRegister();
+        case 3:RateBand();
             break;
-        case 4:BandRegister();
+        case 4:ShowBandAverage();
             break;
         case -1:Console.WriteLine("Obrigado por usar o Screen Sound");
             break;
@@ -43,12 +42,12 @@ void ShowOptionsMenu()
 void BandRegister()
 {
     Console.Clear();
-    Console.WriteLine("Registro de bandas");
+    ShowTitle("Registro de bandas");
     Console.Write("Digite o nome da banda que deseja registrar: ");
     string bandName = Console.ReadLine()!;
-    bandList.Add(bandName);
+    registeredBands.Add(bandName, []);
     Console.WriteLine($"A banda {bandName} foi registrada!");
-    Thread.Sleep(1500);
+    Thread.Sleep(1000);
     Console.Clear();
     ShowOptionsMenu();
 }
@@ -57,7 +56,7 @@ void ShowBands()
 {
     
     Console.Clear();
-    if (bandList.Count == 0)
+    if (registeredBands.Count == 0)
     {
         Console.WriteLine("Não possui banda registrada, selecione a opção 1 para fazer o registro");
         Thread.Sleep(2000);
@@ -66,17 +65,84 @@ void ShowBands()
     }
     else
     {
-        Console.WriteLine("Exibindo as bandas registradas");
-        for (int i = 0; i < bandList.Count; i++) 
+        ShowTitle("Exibindo todas as bandas");
+        foreach (string band in registeredBands.Keys)
         {
-            Console.WriteLine($"banda:{bandList[i]}");
+            Console.WriteLine($"- {band}");
         }
-        Console.WriteLine("Pressione qualquer tecla para voltar");
+        Console.WriteLine("\nPressione qualquer tecla para voltar");
         Console.ReadKey();
         Console.Clear();
         ShowOptionsMenu();
 
     }
+}
+
+void ShowTitle(string title)
+{
+    int letterCount = title.Length;
+    char star = '*';
+    string stars = string.Empty.PadLeft(letterCount, star);
+    Console.WriteLine(stars);
+    Console.WriteLine(title);
+    Console.WriteLine(stars + "\n");
+}
+
+void RateBand()
+{
+    Console.Clear();
+    ShowTitle("Avalie a banda");
+    Console.Write("Digite a banda que deseja avaliar: ");
+    string bandName = Console.ReadLine()!;
+    if (registeredBands.ContainsKey(bandName))
+    {
+        Console.WriteLine("Digite uma nota para a banda");
+        int rating = int.Parse(Console.ReadLine()!);
+        registeredBands[bandName].Add(rating);
+        Console.WriteLine("\nNota atribuída com sucesso!");
+        Thread.Sleep(1500);
+        Console.Clear();
+        ShowOptionsMenu();
+
+    }else
+    {
+        Console.WriteLine("Banda não encontrada!");
+        Console.WriteLine("Aperte qualquer tecla para voltar");
+        Console.ReadKey();
+        Console.Clear();
+        ShowOptionsMenu();
+    }
+
+}
+
+void ShowBandAverage()
+{
+    Console.Clear();
+    ShowTitle("Média da banda");
+    Console.Write("Digite a banda que deseja ver a média: ");
+    string bandName = Console.ReadLine()!;
+    if (registeredBands.ContainsKey(bandName))
+    {
+        Console.WriteLine("Digite uma nota para a banda");
+        double average = registeredBands[bandName].Average();
+        Console.WriteLine($"a média de {bandName} é {average}");
+        Console.WriteLine("Aperte qualquer tecla para voltar");
+        Console.ReadKey();
+        Console.Clear();
+        ShowOptionsMenu();
+
+    }
+    else
+    {
+        Console.WriteLine("Banda não encontrada!");
+        Console.WriteLine("Aperte qualquer tecla para voltar");
+        Console.ReadKey();
+        Console.Clear();
+        ShowOptionsMenu();
+    }
+
+
+
 }
 
 ShowOptionsMenu();
