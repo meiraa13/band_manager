@@ -1,6 +1,6 @@
 ﻿// Screen Sound from Alura
 
-string welcomeMessage = "Boas vindas ao Screen Sound";
+string welcomeMessage = "Boas vindas ao Screen Sound 2.0";
 Dictionary<string, List<int>> registeredBands = new Dictionary<string, List<int>>(); 
 void ShowWelcomeMessage()
 {   
@@ -13,9 +13,10 @@ void ShowOptionsMenu()
 {
     ShowWelcomeMessage();
     Console.WriteLine("\nDigite 1 para registrar uma banda");
-    Console.WriteLine("Digite 2 para mostrar todas as bandas");
-    Console.WriteLine("Digete 3 para avaliar uma banda");
-    Console.WriteLine("Digite 4 para exibir a média de uma banda");
+    Console.WriteLine("Digite 2 para registrar o album de uma banda");
+    Console.WriteLine("Digete 3 para mostrar todas as bandas");
+    Console.WriteLine("Digite 4 para avaliar uma banda");
+    Console.WriteLine("Digite 5 para exibir os detalhes de uma banda");
     Console.WriteLine("Digite -1 para sair");
 
     Console.Write("\nDigite a sua opção: ");
@@ -24,22 +25,31 @@ void ShowOptionsMenu()
 
     switch (numberOption)
     {
-        case 1:BandRegister();
+        case 1:
+            RegisterBand();
             break;
-        case 2:ShowBands();
+        case 2:
+            RegisterAlbum();
             break;
-        case 3:RateBand();
+        case 3:
+            ShowBands();
             break;
-        case 4:ShowBandAverage();
+        case 4:
+            RateBand();
             break;
-        case -1:Console.WriteLine("Obrigado por usar o Screen Sound");
+        case 5:
+            ShowBandAverage();
             break;
-        default: Console.WriteLine("Opção inválida");
+        case -1:
+            Console.WriteLine("Obrigado por usar o Screen Sound");
+            break;
+        default:
+            Console.WriteLine("Opção inválida");
             break;
     }
 }
 
-void BandRegister()
+void RegisterBand()
 {
     Console.Clear();
     ShowTitle("Registro de bandas");
@@ -144,5 +154,21 @@ void ShowBandAverage()
 
 
 }
+
+void RegisterAlbum()
+{
+    Console.Clear();
+    ShowTitle("Registro de albuns");
+    Console.Write("Digite a banda cujo album deseja registrar: ");
+    string bandName = Console.ReadLine();
+    Console.Write("Agora digite o nome do albun: ");
+    string albumName = Console.ReadLine();
+    /** coment  */
+    Console.WriteLine($"o album {albumName} da {bandName} foi registrado!");
+    Thread.Sleep(1000);
+    Console.Clear();
+    ShowOptionsMenu();
+}
+
 
 ShowOptionsMenu();
