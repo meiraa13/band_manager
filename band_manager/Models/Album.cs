@@ -1,4 +1,5 @@
-﻿class Album
+﻿namespace band_manager.Models;
+class Album
 {
     private List<Music> musics = [];
     public string Name {  get; }

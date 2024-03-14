@@ -1,4 +1,5 @@
-﻿class Band
+﻿namespace band_manager.Models;
+class Band
 {
     private List<Album> albuns = [];
     private List<int> grades = [];

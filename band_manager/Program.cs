@@ -1,7 +1,18 @@
 ﻿// Screen Sound from Alura
+using band_manager.Models;
+
+Band ira = new("Ira!");
+ira.AddGrade(10);
+ira.AddGrade(6);
+Band beatles = new("The Beatles");
+beatles.AddGrade(9);
+beatles.AddGrade(7);
 
 string welcomeMessage = "Boas vindas ao Screen Sound 2.0";
-Dictionary<string, List<int>> registeredBands = new Dictionary<string, List<int>>(); 
+Dictionary<string, Band> registeredBands = new();
+registeredBands.Add(ira.Name, ira);
+registeredBands.Add(beatles.Name, beatles);
+
 void ShowWelcomeMessage()
 {   
 
@@ -55,7 +66,8 @@ void RegisterBand()
     ShowTitle("Registro de bandas");
     Console.Write("Digite o nome da banda que deseja registrar: ");
     string bandName = Console.ReadLine()!;
-    registeredBands.Add(bandName, []);
+    Band band = new Band(bandName);
+    registeredBands.Add(bandName, band);
     Console.WriteLine($"A banda {bandName} foi registrada!");
     Thread.Sleep(1000);
     Console.Clear();
@@ -106,9 +118,10 @@ void RateBand()
     string bandName = Console.ReadLine()!;
     if (registeredBands.ContainsKey(bandName))
     {
+        Band band = registeredBands[bandName];
         Console.WriteLine("Digite uma nota para a banda");
         int rating = int.Parse(Console.ReadLine()!);
-        registeredBands[bandName].Add(rating);
+        band.AddGrade(rating);
         Console.WriteLine("\nNota atribuída com sucesso!");
         Thread.Sleep(1500);
         Console.Clear();
@@ -132,14 +145,12 @@ void ShowBandAverage()
     Console.Write("Digite a banda que deseja ver a média: ");
     string bandName = Console.ReadLine()!;
     if (registeredBands.ContainsKey(bandName))
-    {
-        Console.WriteLine("Digite uma nota para a banda");
-        double average = registeredBands[bandName].Average();
-        Console.WriteLine($"a média de {bandName} é {average}");
+    {   
+        Band band = registeredBands[bandName]; 
+        Console.WriteLine($"a média de {bandName} é {band.Average}");
         Console.WriteLine("Aperte qualquer tecla para voltar");
         Console.ReadKey();
         Console.Clear();
-        ShowOptionsMenu();
 
     }
     else
@@ -148,9 +159,8 @@ void ShowBandAverage()
         Console.WriteLine("Aperte qualquer tecla para voltar");
         Console.ReadKey();
         Console.Clear();
-        ShowOptionsMenu();
     }
-
+    ShowOptionsMenu();
 
 
 }
@@ -160,13 +170,26 @@ void RegisterAlbum()
     Console.Clear();
     ShowTitle("Registro de albuns");
     Console.Write("Digite a banda cujo album deseja registrar: ");
-    string bandName = Console.ReadLine();
-    Console.Write("Agora digite o nome do albun: ");
-    string albumName = Console.ReadLine();
-    /** coment  */
-    Console.WriteLine($"o album {albumName} da {bandName} foi registrado!");
-    Thread.Sleep(1000);
-    Console.Clear();
+    string bandName = Console.ReadLine()!;
+    if(registeredBands.ContainsKey(bandName))
+    {
+        Console.Write("Agora digite o nome do album: ");
+        string albumName = Console.ReadLine()!;
+        Band band = registeredBands[bandName];
+        band.AddAlbum(new Album(albumName));
+        Console.WriteLine($"o album {albumName} da {bandName} foi registrado!");
+        Thread.Sleep(1000);
+        Console.Clear();
+    }else
+    {
+        Console.WriteLine("Banda não encontrada!");
+        Console.WriteLine("Aperte qualquer tecla para voltar");
+        Console.ReadKey();
+        Console.Clear();
+    }
+
+
+
     ShowOptionsMenu();
 }
 

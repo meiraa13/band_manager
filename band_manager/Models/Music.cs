@@ -1,4 +1,5 @@
-﻿class Music
+﻿namespace band_manager.Models;
+class Music
 {
     public Music(Band artist, string name)
     {
